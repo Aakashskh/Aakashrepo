@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Clipit | Got footage? Clip it.</title>
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOMt23cez/3paNdF+Z6pD9e1d3y4z6a7e5e2Q5p" crossorigin="anonymous" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+  <nav class="navbar sticky">
+    <div class="logo"><i class="fas fa-play"></i> Clip<span>it</span></div>
+
+    <input type="text" class="search" placeholder="Search video editors..." />
+
+    <div class="nav-links">
+      <a href="#"><i class="fas fa-sign-in-alt"></i> Login</a>
+      <a href="#" class="btn"><i class="fas fa-user-plus"></i> Sign Up</a>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="container">
+      <h1>Got footage? <span>Clip it.</span></h1>
+      <p>Find verified editors. No DMs. No confusion.</p>
+
+      <div class="hero-actions">
+        <input type="text" class="hero-search" placeholder="Search video editors..." />
+        <button class="btn hero-search-btn" type="button">Search</button>
+        <button class="btn-outline" type="button">Become a Creator</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="how-it-works">
+    <div class="container">
+      <h2>How it works</h2>
+      <div class="steps">
+        <div class="step">
+          <i class="fas fa-upload"></i>
+          <h3>Upload your footage</h3>
+          <p>Drag and drop your footage to get started.</p>
+        </div>
+        <div class="step">
+          <i class="fas fa-user-check"></i>
+          <h3>Choose an editor</h3>
+          <p>Browse through verified editors and pick the best fit.</p>
+        </div>
+        <div class="step">
+          <i class="fas fa-check-circle"></i>
+          <h3>Approve &amp; pay</h3>
+          <p>Review the final edit, approve, and make payment securely.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="creators">
+    <div class="container">
+      <h2>Featured Editors</h2>
+      <div class="results-summary" aria-live="polite"></div>
+      <div class="creator-grid">
+        <!-- Creator cards will be populated by JS -->
+      </div>
+    </div>
+  </section>
+
+  <section class="testimonials">
+    <div class="container">
+      <h2>What our users say</h2>
+      <div class="testimonial-cards">
+        <div class="testimonial-card">
+          <p>"Clipit made finding a professional editor so easy! Highly recommend."</p>
+          <h4>- Sarah J.</h4>
+        </div>
+        <div class="testimonial-card">
+          <p>"The process was seamless, and the results were amazing. Love it!"</p>
+          <h4>- Mike T.</h4>
+        </div>
+        <div class="testimonial-card">
+          <p>"Secure payments and verified editors gave me peace of mind. Great platform!"</p>
+          <h4>- Emily R.</h4>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-links">
+      <a href="#"><i class="fas fa-info-circle"></i> About</a>
+      <a href="#"><i class="fas fa-envelope"></i> Contact</a>
+      <a href="#"><i class="fas fa-user-shield"></i> Privacy</a>
+    </div>
+    <p>&copy; Clipit 2026</p>
+  </footer>
+
+  <script src="js/main.js" defer></script>
+</body>
+</html>
