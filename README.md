@@ -32,3 +32,8 @@ A platform to connect video creators with professional editors.
 ## Database
 
 The app uses SQLite database (`clipit.db`) with tables for users and creators.
+
+---
+
+# Aakashrepo
+This is my first repo.
