@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 100" fill="none">
+  <!-- Purple blob (back left) -->
+  <ellipse cx="36" cy="62" rx="26" ry="22" fill="#9B6FD4" opacity="0.85"/>
+  <!-- Blue arc (right) -->
+  <path d="M 68 18 A 36 36 0 1 1 68 82 A 22 22 0 1 0 68 38 A 14 14 0 0 1 68 18 Z" fill="#7EC8E3" opacity="0.9"/>
+  <!-- Red main C circle -->
+  <path d="M 60 8 A 42 42 0 1 1 18 60 A 42 42 0 0 1 32 26 A 27 27 0 0 0 33 74 A 27 27 0 0 0 60 34 Z" fill="#E8312A"/>
+  <!-- White link/chain icon in center -->
+  <circle cx="56" cy="52" r="11" fill="white"/>
+  <circle cx="70" cy="52" r="11" fill="white"/>
+  <rect x="55" y="45" width="16" height="14" fill="white"/>
+  <circle cx="56" cy="52" r="6" fill="#E8312A"/>
+  <circle cx="70" cy="52" r="6" fill="#7EC8E3"/>
+  <rect x="55" y="49" width="16" height="6" fill="white"/>
+</svg>

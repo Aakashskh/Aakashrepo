@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 80" fill="none">
+  <!-- Left overlapping circle (originally purple) -->
+  <circle cx="34" cy="50" r="20" fill="#FF0033" opacity="0.4"/>
+  
+  <!-- Main central circle (originally red) -->
+  <circle cx="58" cy="40" r="32" fill="#FF0033"/>
+  
+  <!-- Right overlapping circle (originally blue) -->
+  <circle cx="86" cy="45" r="26" fill="#FF0033" opacity="0.7"/>
+  
+  <!-- Pill-shaped void (originally white/cutout) -->
+  <g transform="rotate(-15, 72, 42.5)">
+    <rect x="58" y="36.5" width="28" height="12" rx="6" fill="white"/>
+    <circle cx="58" cy="42.5" r="8" fill="white"/>
+    <circle cx="86" cy="42.5" r="8" fill="white"/>
+  </g>
+</svg>

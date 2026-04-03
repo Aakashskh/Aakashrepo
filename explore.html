@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cverso Universe | Immersive Network</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" />
+  <link rel="stylesheet" href="css/explore.css" />
+</head>
+<body>
+  <!-- LOADING SCREEN -->
+  <div id="network-loader">
+    <div class="loader-ring"></div>
+    <p>Connecting to Campus Universe...</p>
+  </div>
+
+  <!-- NAVIGATION -->
+  <nav class="explore-nav">
+    <a href="index.html" class="explore-nav-logo">
+      <img src="public/cverso-logo-red.svg" alt="Cverso Logo" />
+      <span>Cverso</span>
+    </a>
+    <a href="index.html" class="explore-back-btn"><i class="fas fa-satellite"></i> Exit Orbit</a>
+  </nav>
+
+
+
+
+
+  <!-- ZOOM OUT BUTTON (Appears when in a university cluster) -->
+  <button class="zoom-out-btn" id="zoom-out-btn"><i class="fas fa-compress-arrows-alt"></i> Back to Map</button>
+
+  <!-- CREATOR PROFILE MODAL -->
+  <div id="creator-modal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <button class="modal-close" id="modal-close"><i class="fas fa-times"></i></button>
+        <div class="modal-avatar-wrapper">
+          <div class="modal-live-ring"></div>
+          <div class="modal-avatar" id="modal-avatar"></div>
+        </div>
+      </div>
+      <div class="modal-body">
+        <h3 class="modal-name" id="modal-name">Creator Name</h3>
+        <div class="modal-uni" id="modal-uni">Chandigarh University</div>
+        <div class="modal-tags" id="modal-tags">
+          <!-- Tags injected here -->
+        </div>
+        <div class="modal-stats">
+          <div class="stat-item"><span class="stat-val" id="modal-rating">4.9</span><span class="stat-lbl">Rating</span></div>
+          <div class="stat-item"><span class="stat-val" id="modal-gigs">12</span><span class="stat-lbl">Projects</span></div>
+          <div class="stat-item"><span class="stat-val" id="modal-price">$$</span><span class="stat-lbl">Rate</span></div>
+        </div>
+        <button class="modal-action" onclick="alert('Connection requested! Real-time chat integration incoming.')"><i class="fas fa-paper-plane"></i> Initiate Connection</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="ex-bg-blob ex-bg-blob-1"></div>
+  <div class="ex-bg-blob ex-bg-blob-2"></div>
+  <div class="ex-bg-blob ex-bg-blob-3"></div>
+  <div class="ex-bg-grid"></div>
+
+  <!-- THE NETWORK VISUALIZATION -->
+  <div id="universe-container">
+    <svg id="universe-links"></svg>
+    <div id="universe-nodes"></div>
+  </div>
+
+  <!-- LIBRARIES & LOGIC -->
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script src="js/explore.js"></script>
+</body>
+</html>

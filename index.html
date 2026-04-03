@@ -1,100 +1,993 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <title>Clipit | Got footage? Clip it.</title>
-  <link rel="stylesheet" href="css/main.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOMt23cez/3paNdF+Z6pD9e1d3y4z6a7e5e2Q5p" crossorigin="anonymous" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Cverso - Find skilled short-form video editors at your university." />
+  <title>Cverso - Hire top campus creators</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    crossorigin="anonymous" />
+  <link rel="stylesheet" href="css/main.css" />
 </head>
+
 <body>
+  <!-- Toast Container -->
+  <div class="toast-container" id="toast-container"></div>
 
-  <nav class="navbar sticky">
-    <div class="logo"><i class="fas fa-play"></i> Clip<span>it</span></div>
-
-    <input type="text" class="search" placeholder="Search video editors..." />
-
-    <div class="nav-links">
-      <a href="#"><i class="fas fa-sign-in-alt"></i> Login</a>
-      <a href="#" class="btn"><i class="fas fa-user-plus"></i> Sign Up</a>
-    </div>
-  </nav>
-
-  <section class="hero">
-    <div class="container">
-      <h1>Got footage? <span>Clip it.</span></h1>
-      <p>Find verified editors. No DMs. No confusion.</p>
-
-      <div class="hero-actions">
-        <input type="text" class="hero-search" placeholder="Search video editors..." />
-        <button class="btn hero-search-btn" type="button">Search</button>
-        <button class="btn-outline" type="button">Become a Creator</button>
-      </div>
-    </div>
-  </section>
-
-  <section class="how-it-works">
-    <div class="container">
-      <h2>How it works</h2>
-      <div class="steps">
-        <div class="step">
-          <i class="fas fa-upload"></i>
-          <h3>Upload your footage</h3>
-          <p>Drag and drop your footage to get started.</p>
+  <!-- ========== LANDING PAGE ========== -->
+  <div class="landing-page" id="landing-page">
+    <nav class="landing-nav">
+      <div class="section-inner nav-container">
+        <a href="#" class="nav-logo">
+          <img src="public/cverso-logo-red.svg" alt="Cverso Logo" />
+          <span class="logo-main">C<span style="color:var(--accent-base);">verso</span></span>
+        </a>
+        <div class="nav-links">
+          <a href="explore.html" target="_blank" class="nav-link">Explore</a>
+          <a href="#" class="nav-link">Become a Creator</a>
         </div>
-        <div class="step">
-          <i class="fas fa-user-check"></i>
-          <h3>Choose an editor</h3>
-          <p>Browse through verified editors and pick the best fit.</p>
-        </div>
-        <div class="step">
-          <i class="fas fa-check-circle"></i>
-          <h3>Approve &amp; pay</h3>
-          <p>Review the final edit, approve, and make payment securely.</p>
+        <div class="nav-actions">
+          <button class="btn-ghost" onclick="toggleTheme()" title="Toggle Dark Mode"
+            style="border-radius:50%; padding:10px;"><i class="fas fa-moon"></i></button>
+          <button class="btn-ghost" id="open-login">Sign in</button>
+          <button class="btn btn-sm" id="open-signup">Join</button>
         </div>
       </div>
-    </div>
-  </section>
+    </nav>
 
-  <section class="creators">
-    <div class="container">
-      <h2>Featured Editors</h2>
-      <div class="results-summary" aria-live="polite"></div>
-      <div class="creator-grid">
-        <!-- Creator cards will be populated by JS -->
+    <!-- HERO SECTION (DARK V2) -->
+    <section class="hero-section hero-v2" id="hero-section">
+      <div class="hero-content">
+        <h1 class="hero-title">
+          From campus <br /><span>to career.</span>
+        </h1>
+        <p class="hero-sub">Hire skilled creators at your university and build your portfolio.</p>
+        <div class="hero-search-wrapper">
+          <div class="hero-search-container">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" id="hero-search-input" placeholder='Find your jobs, shorts, more talent...' />
+            <button class="btn btn-primary" id="hero-search-btn">Search</button>
+          </div>
+        </div>
+
+        <div class="hero-tags">
+          <span class="tag-label">Popular:</span>
+          <button class="hero-tag">TikTok Shorts</button>
+          <button class="hero-tag">Motion Graphics</button>
+          <button class="hero-tag">VFX</button>
+          <button class="hero-tag">UGC Specialists</button>
+        </div>
+
+        <div class="hero-locations">
+          <span class="loc-item">Chandigarh University</span>
+          <span class="loc-item">Delhi University</span>
+          <span class="loc-item">Amity University</span>
+          <span class="loc-item">Punjab University</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVICES NAVIGATION BAR -->
+    <nav class="services-nav">
+      <div class="section-inner nav-scroll">
+        <div class="service-nav-item active"><i class="fas fa-th-large"></i> All Services</div>
+        <div class="service-nav-item"><i class="fas fa-video"></i> Video Reels</div>
+        <div class="service-nav-item"><i class="fas fa-bolt"></i> TikTok Shorts</div>
+        <div class="service-nav-item"><i class="fas fa-film"></i> Motion Graphics</div>
+        <div class="service-nav-item"><i class="fas fa-ad"></i> Service Ads</div>
+        <div class="service-nav-item"><i class="fas fa-camera"></i> UGC Ads</div>
+        <div class="service-nav-item"><i class="fas fa-scissors"></i> Video Edit</div>
+        <div class="service-nav-item"><i class="fas fa-play-circle"></i> YouTube Shorts</div>
+      </div>
+    </nav>
+
+
+
+    <!-- POPULAR SERVICES -->
+    <section class="popular-section">
+      <div class="section-inner">
+        <div class="section-header-row">
+          <h2 class="section-heading">Crafting the Future of <span>Content</span></h2>
+          <p class="section-subheading">Explore our most sought-after professional university services, from viral
+            vertical edits to high-end motion design.</p>
+        </div>
+        <div class="services-scroller" id="popular-services-scroller">
+          <!-- Viral Shorts -->
+          <div class="service-card" data-category="short-form youtube">
+            <div class="service-card-img">
+              <img src="https://images.unsplash.com/photo-1611162616305-c69b3fa7fbe0?auto=format&fit=crop&q=80&w=600"
+                alt="Viral Shorts" />
+            </div>
+            <div class="service-card-info">
+              <div>
+                <div class="service-card-label">Viral Shorts</div>
+                <div class="service-card-sub">High-Retention Editing</div>
+              </div>
+              <div class="service-card-footer">
+                <span class="service-tag">Popular</span>
+                <div class="service-card-arrow"><i class="fas fa-arrow-right"></i></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Motion Graphics -->
+          <div class="service-card" data-category="motion-graphics">
+            <div class="service-card-img">
+              <img src="https://images.unsplash.com/photo-1626785774573-4b799315345d?auto=format&fit=crop&q=80&w=600"
+                alt="Motion Graphics" />
+            </div>
+            <div class="service-card-info">
+              <div>
+                <div class="service-card-label">Motion Graphics</div>
+                <div class="service-card-sub">Dynamic Visual Design</div>
+              </div>
+              <div class="service-card-footer">
+                <span class="service-tag">Creative</span>
+                <div class="service-card-arrow"><i class="fas fa-arrow-right"></i></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Promo Ads -->
+          <div class="service-card" data-category="promo-edits">
+            <div class="service-card-img">
+              <img src="https://images.unsplash.com/photo-1614850523296-d8c1af93d400?auto=format&fit=crop&q=80&w=600"
+                alt="Promo Ads" />
+            </div>
+            <div class="service-card-info">
+              <div>
+                <div class="service-card-label">Promo Ads</div>
+                <div class="service-card-sub">Conversion Focused Ads</div>
+              </div>
+              <div class="service-card-footer">
+                <span class="service-tag">Ad Tech</span>
+                <div class="service-card-arrow"><i class="fas fa-arrow-right"></i></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- VFX Enhancement -->
+          <div class="service-card" data-category="vfx">
+            <div class="service-card-img">
+              <img src="https://images.unsplash.com/photo-1635323597505-183fa2729938?auto=format&fit=crop&q=80&w=600"
+                alt="VFX Specialist" />
+            </div>
+            <div class="service-card-info">
+              <div>
+                <div class="service-card-label">VFX Specialist</div>
+                <div class="service-card-sub">Cinematic Effects</div>
+              </div>
+              <div class="service-card-footer">
+                <span class="service-tag">Pro</span>
+                <div class="service-card-arrow"><i class="fas fa-arrow-right"></i></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Instagram Reels -->
+          <div class="service-card" data-category="reels short-form">
+            <div class="service-card-img">
+              <img src="https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?auto=format&fit=crop&q=80&w=600"
+                alt="Instagram Reels" />
+            </div>
+            <div class="service-card-info">
+              <div>
+                <div class="service-card-label">Instagram Reels</div>
+                <div class="service-card-sub">Social Growth Edits</div>
+              </div>
+              <div class="service-card-footer">
+                <span class="service-tag">Viral</span>
+                <div class="service-card-arrow"><i class="fas fa-arrow-right"></i></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Captions & Subtitles -->
+          <div class="service-card" data-category="captions">
+            <div class="service-card-img">
+              <img src="https://images.unsplash.com/photo-1626544823126-64906f947936?auto=format&fit=crop&q=80&w=600"
+                alt="Captions" />
+            </div>
+            <div class="service-card-info">
+              <div>
+                <div class="service-card-label">Captions & Subs</div>
+                <div class="service-card-sub">Accessibility & Style</div>
+              </div>
+              <div class="service-card-footer">
+                <span class="service-tag">Utility</span>
+                <div class="service-card-arrow"><i class="fas fa-arrow-right"></i></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section> <!-- FEATURES CTA SECTION -->
+    <section class="features-v2" style="background: #ffffff;">
+      <div class="section-inner">
+        <div class="features-v2-header">
+          <h2 class="features-heading">Make it happen <span>with creators</span></h2>
+          <button class="btn btn-primary" id="open-signup-bottom">Join now</button>
+        </div>
+
+        <div class="features-grid-v2">
+          <div class="feature-card-v2">
+            <div class="feature-icon-v2"><i class="fas fa-briefcase"></i></div>
+            <h4>Account Management</h4>
+            <p>Secure metadata from past view items and curated personal portfolios.</p>
+          </div>
+          <div class="feature-card-v2">
+            <div class="feature-icon-v2"><i class="fas fa-bolt"></i></div>
+            <h4>Fast Delivery</h4>
+            <p>Get paired with the best talent for your project starts in seconds.</p>
+          </div>
+          <div class="feature-card-v2">
+            <div class="feature-icon-v2"><i class="fas fa-shield-alt"></i></div>
+            <h4>Quality Guaranteed</h4>
+            <p>Only pay when you're satisfied with authenticated results.</p>
+          </div>
+          <div class="feature-card-v2">
+            <div class="feature-icon-v2"><i class="fas fa-magic"></i></div>
+            <h4>Enigmatic Storytelling</h4>
+            <p>Premium branding with modern visual-driven features.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LANDING FOOTER -->
+    <footer class="landing-footer">
+      <div class="section-inner footer-inner">
+        <div class="footer-brand nav-logo">
+          <img src="public/cverso-logo-red.svg" alt="Cverso Logo" />
+          <div class="logo-text">
+            <span class="logo-main">C<span style="color:var(--accent-base);">verso</span></span>
+            <span class="logo-tag">From campus to career.</span>
+          </div>
+        </div>
+        <div class="footer-links">
+          <a href="#">Privacy</a>
+          <a href="#">Terms</a>
+          <a href="#">Campus Hubs</a>
+        </div>
+        <div class="footer-copy">© 2026 Cverso. Hire top campus creators.</div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- ========== FULL PAGE AUTH ========== -->
+  <div class="auth-page hidden" id="auth-page">
+    <nav class="auth-nav">
+      <a href="#" class="nav-logo" id="auth-nav-logo">
+        <img src="public/cverso-logo-red.svg" alt="Cverso Logo" />
+        <span class="logo-main" style="color:#fff;">C<span style="color:var(--accent-base);">verso</span></span>
+      </a>
+      <button class="btn btn-ghost" id="auth-back-btn"><i class="fas fa-arrow-left"></i> Back to Hub</button>
+    </nav>
+
+    <div class="auth-page-body">
+      <!-- STEP 1: Elegant Glass Auth Card -->
+      <div class="auth-step" id="auth-step-1">
+        <div class="auth-card-modern glass">
+          <div class="auth-tabs" id="auth-tabs">
+            <button class="active" id="tab-login">Sign in</button>
+            <button id="tab-signup">New Account</button>
+          </div>
+
+          <!-- Login Form -->
+          <form id="form-login" class="auth-form-modern">
+            <h2 class="auth-heading">Welcome back</h2>
+            <p class="auth-subtext">Access your campus talent network</p>
+
+            <div class="input-wrap-modern">
+              <label>Email</label>
+              <input type="email" name="email" class="input-glass" placeholder="name@uni.edu" required />
+            </div>
+
+            <div class="input-wrap-modern">
+              <label>Password</label>
+              <input type="password" name="password" class="input-glass" placeholder="••••••••" required />
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-full neon-glow">Enter Hub</button>
+            <p class="auth-switch-modern">Don't have an account? <a href="#" id="switch-to-signup">Join the Future</a>
+            </p>
+          </form>
+
+          <!-- Signup Form -->
+          <form id="form-signup" class="auth-form-modern hidden">
+            <h2 class="auth-heading">Join the Network</h2>
+            <p class="auth-subtext">From campus to career starts here</p>
+
+            <div class="input-wrap-modern">
+              <label>Full Name</label>
+              <input type="text" name="name" class="input-glass" placeholder="Enter full name" required />
+            </div>
+
+            <div class="input-wrap-modern">
+              <label>University Email</label>
+              <input type="email" name="email" class="input-glass" placeholder="name@uni.edu" required />
+            </div>
+
+            <div class="input-wrap-modern">
+              <label>Password</label>
+              <input type="password" name="password" class="input-glass" placeholder="Min 6 characters" required
+                minlength="6" />
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-full">Create Account</button>
+            <p class="auth-switch-modern">Already a member? <a href="#" id="switch-to-login">Sign in</a></p>
+          </form>
+        </div>
+      </div>
+
+      <!-- STEP 2: Role selection (Fiverr-style) -->
+      <div class="auth-step hidden" id="auth-step-2">
+        <div class="role-select-page">
+          <h2 class="role-heading" id="role-heading">Welcome! What brings you to C<span
+              style="color:var(--accent-base);">verso</span>?</h2>
+          <p class="role-sub">We'll tailor your experience to fit your needs.</p>
+          <div class="role-cards">
+            <button class="role-card" id="role-user" data-role="user">
+              <div class="role-check"><i class="fas fa-check"></i></div>
+              <div class="role-icon"><i class="fas fa-search"></i></div>
+              <span class="role-label">I need a video editor</span>
+              <span class="role-desc">Hire top creators to edit your footage</span>
+            </button>
+            <button class="role-card" id="role-creator" data-role="creator">
+              <div class="role-check"><i class="fas fa-check"></i></div>
+              <div class="role-icon"><i class="fas fa-video"></i></div>
+              <span class="role-label">I'm a video editor</span>
+              <span class="role-desc">Offer my editing services to clients</span>
+            </button>
+          </div>
+          <div class="role-actions">
+            <button class="btn btn-role-next" id="role-next-btn" disabled>Next <i
+                class="fas fa-arrow-right"></i></button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ========== DASHBOARD (post-login) ========== -->
+  <div class="dashboard hidden" id="dashboard">
+    <!-- Antigravity Background -->
+    <div class="antigravity-bg">
+      <div class="shape shape-1"></div>
+      <div class="shape shape-2"></div>
+      <div class="shape shape-3"></div>
+      <div class="shape shape-4"></div>
+      <div class="shape shape-5"></div>
+      <div class="shape shape-6"></div>
+    </div>
+
+    <!-- ===== BUYER DASHBOARD ===== -->
+    <div id="buyer-dashboard" class="role-dashboard">
+      <!-- TOP NAVIGATION BAR -->
+      <nav class="fiverr-nav">
+        <div class="fiverr-nav-inner">
+          <div class="fiverr-nav-left">
+            <span class="brand" id="bnav-home" onclick="buyerNav('bnav-home')" style="cursor:pointer;">
+              <img src="public/cverso-logo-red.svg" alt="Cverso Logo" />
+            </span>
+            <div class="fiverr-search-bar">
+              <input type="text" placeholder="What service are you looking for today?" id="search-creators" />
+              <button class="fiverr-search-btn"><i class="fas fa-search"></i></button>
+            </div>
+          </div>
+          <div class="fiverr-nav-right">
+            <div class="nav-icon" onclick="toggleTheme()" title="Toggle Dark/Light Mode"><i class="fas fa-moon"></i>
+            </div>
+            <div class="nav-icon" id="bnav-marketplace" onclick="buyerNav('bnav-marketplace')" title="Marketplace"><i
+                class="fas fa-compass"></i></div>
+            <div class="nav-icon"><i class="far fa-bell"></i></div>
+            <div class="nav-icon"><i class="far fa-envelope"></i></div>
+            <div class="nav-icon"><i class="far fa-heart"></i></div>
+            <a href="#" class="nav-text-link" onclick="buyerNav('bnav-requests')">Orders</a>
+            <div class="avatar-wrap" onclick="buyerNav('bnav-profile')">
+              <span id="topbar-name" class="hidden">User</span>
+              <img src="https://ui-avatars.com/api/?name=A&background=2563eb&color=fff" alt="User avatar"
+                id="topbar-avatar" class="fiverr-avatar" />
+              <div class="online-dot"></div>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <!-- SUB NAVIGATION CATEGORIES -->
+      <nav class="fiverr-subnav">
+        <div class="fiverr-subnav-inner">
+          <a href="#" class="subnav-link">Trending 🔥</a>
+          <a href="#" class="subnav-link">Graphics & Design</a>
+          <a href="#" class="subnav-link">Programming & Tech</a>
+          <a href="#" class="subnav-link">Digital Marketing</a>
+          <a href="#" class="subnav-link">Video & Animation</a>
+          <a href="#" class="subnav-link">Writing & Translation</a>
+          <a href="#" class="subnav-link">Music & Audio</a>
+          <a href="#" class="subnav-link">Business</a>
+          <a href="#" class="subnav-link">Finance</a>
+          <a href="#" class="subnav-link">AI Services</a>
+          <div class="subnav-arrow"><i class="fas fa-chevron-right"></i></div>
+        </div>
+      </nav>
+
+      <main class="main-content-fiverr">
+
+        <!-- HOME VIEW (Fiverr Dashboard default) -->
+        <section id="view-home">
+          <div class="hero-fiverr">
+            <div class="hero-fiverr-inner">
+              <h1 id="fiverr-welcome-text">Welcome to C<span style="color:var(--accent-base);">verso</span>, User</h1>
+            </div>
+          </div>
+          <div class="fiverr-cards-container">
+            <!-- Card 1 -->
+            <div class="fiverr-action-card">
+              <div class="card-meta">RECOMMENDED FOR YOU</div>
+              <div class="card-body">
+                <div class="card-icon-circle"><i class="fas fa-file-contract"></i></div>
+                <div class="card-text">
+                  <h3>Post a project brief</h3>
+                  <p>Get tailored offers for your needs.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="fiverr-action-card">
+              <div class="card-meta">RECOMMENDED FOR YOU</div>
+              <div class="card-body">
+                <div class="card-icon-circle"><i class="fas fa-mobile-alt"></i></div>
+                <div class="card-text">
+                  <h3>Download the Cverso app</h3>
+                  <p>Stay productive, anywhere you go.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="fiverr-action-card">
+              <div class="card-meta">PROFILE PROGRESS</div>
+              <div class="card-body">
+                <div class="card-icon-circle"><i class="fas fa-briefcase"></i></div>
+                <div class="card-text">
+                  <h3>You've added 25% of your profile</h3>
+                  <p>Complete it to get tailored suggestions.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+
+        <section class="dashboard-content hidden" id="view-marketplace">
+          <h2 class="section-title">Creator Marketplace</h2>
+          <div class="results-summary" id="results-summary"></div>
+          <div class="creator-grid" id="creator-grid"></div>
+        </section>
+
+        <!-- My Requests -->
+        <section class="dashboard-content hidden" id="view-requests">
+          <div class="cview-header">
+            <h2 class="section-title">My Requests</h2>
+            <button class="btn" id="new-request-btn"><i class="fas fa-plus"></i> New Request</button>
+          </div>
+          <!-- Request form -->
+          <div class="gig-form glass-panel hidden" id="request-form">
+            <h3 style="margin-bottom:20px;">Post a Request</h3>
+            <div class="gig-form-fields">
+              <div class="input-group">
+                <i class="fas fa-heading"></i>
+                <input type="text" id="req-title" class="input-field"
+                  placeholder="What do you need? (e.g. Edit 10 YouTube Shorts)" />
+              </div>
+              <textarea id="req-desc" class="input-field" rows="4"
+                placeholder="Describe your footage, style preferences, deadline..."></textarea>
+              <div class="gig-price-row">
+                <div class="input-group" style="flex:1">
+                  <i class="fas fa-indian-rupee-sign"></i>
+                  <input type="number" id="req-budget" class="input-field" placeholder="Budget (&#8377;)" min="100" />
+                </div>
+                <div class="input-group" style="flex:1">
+                  <i class="fas fa-calendar"></i>
+                  <input type="date" id="req-deadline" class="input-field" />
+                </div>
+              </div>
+              <div class="gig-form-actions">
+                <button class="btn-outline" id="req-cancel-btn">Cancel</button>
+                <button class="btn" id="req-post-btn">Post Request <i class="fas fa-paper-plane"></i></button>
+              </div>
+            </div>
+          </div>
+          <div class="empty-state" id="requests-empty">
+            <i class="fas fa-list-check"></i>
+            <h3>No requests yet</h3>
+            <p>Post a request and let editors come to you with proposals.</p>
+            <button class="btn" id="new-request-btn-2"><i class="fas fa-plus"></i> Post a Request</button>
+          </div>
+          <div class="requests-list hidden" id="requests-list"></div>
+        </section>
+
+        <!-- Order History -->
+        <section class="dashboard-content hidden" id="view-history">
+          <h2 class="section-title">Order History</h2>
+          <div class="empty-state">
+            <i class="fas fa-clock-rotate-left"></i>
+            <h3>No orders yet</h3>
+            <p>Once you hire a creator, your completed orders will appear here.</p>
+            <button class="btn" onclick="buyerNav('bnav-marketplace')">Browse Creators</button>
+          </div>
+        </section>
+
+        <!-- Upload Footage -->
+        <section class="dashboard-content hidden" id="view-upload">
+          <h2 class="section-title">Upload Footage</h2>
+          <div class="glass-panel upload-panel">
+            <div class="doc-upload-area" id="main-upload-area">
+              <i class="fas fa-cloud-arrow-up"></i>
+              <h3>Drop your raw footage here</h3>
+              <p>Supports .ZIP, .MP4, .MOV — up to 5GB</p>
+              <div class="upload-btn-wrapper">
+                <button class="btn">Browse Files</button>
+                <input type="file" name="rawfootage" accept=".zip,.mp4,.mov"
+                  onchange="showToast('File uploaded successfully!', 'success')" />
+              </div>
+            </div>
+          </div>
+          <div class="upload-tips">
+            <h3>Upload Tips</h3>
+            <div class="tips-grid">
+              <div class="tip-card"><i class="fas fa-check-circle"></i><span>Use MP4 or MOV for best
+                  compatibility</span></div>
+              <div class="tip-card"><i class="fas fa-check-circle"></i><span>Add a brief note about your editing
+                  style</span></div>
+              <div class="tip-card"><i class="fas fa-check-circle"></i><span>Compress large files into a ZIP before
+                  uploading</span></div>
+              <div class="tip-card"><i class="fas fa-check-circle"></i><span>Ensure footage is at least 1080p
+                  resolution</span></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- My Profile -->
+        <section class="dashboard-content hidden" id="view-profile">
+          <h2 class="section-title">My Profile</h2>
+          <div class="profile-edit-card glass-panel">
+            <div class="profile-edit-avatar-row">
+              <img src="" id="profile-edit-avatar" alt="Avatar" class="profile-edit-img" />
+              <div class="profile-edit-info">
+                <h3 id="profile-edit-name">Your Name</h3>
+                <p id="profile-edit-email" style="color:var(--text-secondary); font-size:0.9rem;">email@example.com</p>
+                <span class="tag">Buyer</span>
+              </div>
+            </div>
+            <div class="profile-form">
+              <div class="profile-form-row">
+                <div class="input-group" style="flex:1">
+                  <i class="fas fa-user"></i>
+                  <input type="text" class="input-field" placeholder="Display name" id="pf-name" />
+                </div>
+                <div class="input-group" style="flex:1">
+                  <i class="fas fa-university"></i>
+                  <input type="text" class="input-field" placeholder="University" id="pf-uni" />
+                </div>
+              </div>
+              <div class="input-group">
+                <i class="fas fa-info-circle"></i>
+                <input type="text" class="input-field" placeholder="Short bio (e.g. Content creator at CU)"
+                  id="pf-bio" />
+              </div>
+              <div class="input-group">
+                <i class="fab fa-instagram"></i>
+                <input type="text" class="input-field" placeholder="Instagram handle (optional)" id="pf-insta" />
+              </div>
+              <div class="input-group">
+                <i class="fab fa-youtube"></i>
+                <input type="text" class="input-field" placeholder="YouTube channel URL (optional)" id="pf-yt" />
+              </div>
+              <div style="display:flex; justify-content:flex-end; margin-top:8px;">
+                <button class="btn" onclick="showToast('Profile saved!', 'success')">Save Changes <i
+                    class="fas fa-check"></i></button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Settings -->
+        <section class="dashboard-content hidden" id="view-settings">
+          <h2 class="section-title">Settings</h2>
+          <div class="settings-grid">
+            <div class="settings-card glass-panel">
+              <h4><i class="fas fa-bell"></i> Notifications</h4>
+              <div class="settings-items">
+                <div class="settings-row">
+                  <span>Email notifications</span>
+                  <label class="toggle-switch"><input type="checkbox" checked id="notif-email"><span
+                      class="toggle-slider"></span></label>
+                </div>
+                <div class="settings-row">
+                  <span>Order updates</span>
+                  <label class="toggle-switch"><input type="checkbox" checked id="notif-orders"><span
+                      class="toggle-slider"></span></label>
+                </div>
+                <div class="settings-row">
+                  <span>New creator alerts</span>
+                  <label class="toggle-switch"><input type="checkbox" id="notif-creators"><span
+                      class="toggle-slider"></span></label>
+                </div>
+              </div>
+            </div>
+            <div class="settings-card glass-panel">
+              <h4><i class="fas fa-lock"></i> Security</h4>
+              <div class="settings-items">
+                <div class="input-group" style="margin-bottom:12px;">
+                  <i class="fas fa-lock"></i>
+                  <input type="password" class="input-field" placeholder="Current password" />
+                </div>
+                <div class="input-group" style="margin-bottom:12px;">
+                  <i class="fas fa-key"></i>
+                  <input type="password" class="input-field" placeholder="New password" />
+                </div>
+                <button class="btn btn-full" onclick="showToast('Password updated!','success')">Update Password</button>
+              </div>
+            </div>
+            <div class="settings-card glass-panel">
+              <h4><i class="fas fa-palette"></i> Preferences</h4>
+              <div class="settings-items">
+                <div class="settings-row">
+                  <span>Show prices in INR</span>
+                  <label class="toggle-switch"><input type="checkbox" checked id="pref-inr"><span
+                      class="toggle-slider"></span></label>
+                </div>
+                <div class="settings-row">
+                  <span>Show university badges</span>
+                  <label class="toggle-switch"><input type="checkbox" checked id="pref-uni"><span
+                      class="toggle-slider"></span></label>
+                </div>
+              </div>
+            </div>
+            <div class="settings-card glass-panel danger-card">
+              <h4><i class="fas fa-triangle-exclamation"></i> Danger Zone</h4>
+              <div class="settings-items">
+                <p style="color:var(--text-secondary); font-size:0.88rem; margin-bottom:14px;">Permanently delete your
+                  account and all data.</p>
+                <button class="btn-danger"
+                  onclick="showToast('Account deletion is disabled in demo mode.', 'error')">Delete Account</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </main>
+    </div>
+
+    <!-- ===== CREATOR DASHBOARD ===== -->
+    <div id="creator-dashboard" class="role-dashboard hidden">
+      <aside class="sidebar" id="creator-sidebar">
+        <div class="sidebar-header">
+          <button class="hamburger" id="creator-hamburger-btn"><i class="fas fa-bars"></i></button>
+          <span class="brand">
+            <img src="public/cverso-logo-red.svg" alt="Cverso Logo" />
+            <span>C<span style="color:var(--accent-base);">verso</span></span>
+          </span>
+        </div>
+        <nav class="sidebar-nav">
+          <a href="#" class="sidebar-link active" id="cnav-overview">
+            <i class="fas fa-gauge-high"></i><span>Overview</span>
+          </a>
+          <a href="#" class="sidebar-link" id="cnav-gigs">
+            <i class="fas fa-film"></i><span>My Gigs</span>
+          </a>
+          <a href="#" class="sidebar-link" id="cnav-orders">
+            <i class="fas fa-box-open"></i><span>Active Orders</span>
+          </a>
+          <a href="#" class="sidebar-link" id="cnav-marketplace">
+            <i class="fas fa-users"></i><span>Marketplace</span>
+          </a>
+          <a href="#" class="sidebar-link" id="cnav-earnings">
+            <i class="fas fa-chart-line"></i><span>Earnings</span>
+          </a>
+          <a href="#" class="sidebar-link" id="cnav-portfolio">
+            <i class="fas fa-images"></i><span>Portfolio</span>
+          </a>
+          <a href="#" class="sidebar-link" id="cnav-profile">
+            <i class="fas fa-circle-user"></i><span>My Profile</span>
+          </a>
+          <a href="#" class="sidebar-link">
+            <i class="fas fa-gear"></i><span>Settings</span>
+          </a>
+          <div style="flex:1"></div>
+          <a href="#" class="sidebar-link" onclick="toggleTheme()">
+            <i class="fas fa-moon"></i><span>Theme Toggle</span>
+          </a>
+          <a href="#" class="sidebar-link logout-btn">
+            <i class="fas fa-right-from-bracket"></i><span>Logout</span>
+          </a>
+        </nav>
+      </aside>
+
+      <main class="main-content">
+        <header class="top-bar">
+          <div class="creator-topbar-left">
+            <span class="creator-badge"><i class="fas fa-video"></i> Creator Studio</span>
+          </div>
+          <div class="user-snippet">
+            <span id="creator-topbar-name">Welcome</span>
+            <img src="https://ui-avatars.com/api/?name=Creator&background=ff0033&color=fff" alt="Creator"
+              id="creator-topbar-avatar" />
+          </div>
+        </header>
+
+        <!-- Overview -->
+        <section class="dashboard-content" id="cview-overview">
+          <h2 class="section-title">Creator Overview</h2>
+          <div class="creator-stats-grid">
+            <div class="stat-card">
+              <div class="stat-icon"><i class="fas fa-star"></i></div>
+              <div class="stat-info">
+                <span class="stat-value">4.9</span>
+                <span class="stat-label">Avg Rating</span>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon"><i class="fas fa-box-open"></i></div>
+              <div class="stat-info">
+                <span class="stat-value">0</span>
+                <span class="stat-label">Active Orders</span>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon"><i class="fas fa-indian-rupee-sign"></i></div>
+              <div class="stat-info">
+                <span class="stat-value">₹0</span>
+                <span class="stat-label">Total Earnings</span>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon"><i class="fas fa-eye"></i></div>
+              <div class="stat-info">
+                <span class="stat-value">0</span>
+                <span class="stat-label">Profile Views</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="creator-setup-prompt">
+            <div class="setup-icon"><i class="fas fa-rocket"></i></div>
+            <h3>Set up your creator profile</h3>
+            <p>Add your specialty, portfolio, and pricing to start receiving orders from clients.</p>
+            <button class="btn" id="goto-gigs-btn">Create My First Gig <i class="fas fa-arrow-right"></i></button>
+          </div>
+        </section>
+
+        <!-- My Gigs -->
+        <section class="dashboard-content hidden" id="cview-gigs">
+          <div class="cview-header">
+            <h2 class="section-title">My Gigs</h2>
+            <button class="btn" id="add-gig-btn"><i class="fas fa-plus"></i> New Gig</button>
+          </div>
+          <div class="empty-state" id="gigs-empty">
+            <i class="fas fa-film"></i>
+            <h3>No gigs yet</h3>
+            <p>Create your first gig to start getting hired as a video editor.</p>
+            <button class="btn" id="add-gig-btn-2"><i class="fas fa-plus"></i> Create a Gig</button>
+          </div>
+          <!-- Gig creation form -->
+          <div class="gig-form glass-panel hidden" id="gig-form">
+            <h3 style="margin-bottom:20px;">Create a Gig</h3>
+            <div class="gig-form-fields">
+              <div class="input-group">
+                <i class="fas fa-heading"></i>
+                <input type="text" id="gig-title" class="input-field"
+                  placeholder="Gig title (e.g. I will edit your YouTube Shorts)" />
+              </div>
+              <div class="input-group">
+                <i class="fas fa-film"></i>
+                <input type="text" id="gig-specialty" class="input-field"
+                  placeholder="Specialty (e.g. YouTube Shorts Editing)" />
+              </div>
+              <textarea id="gig-desc" class="input-field" rows="4"
+                placeholder="Describe what you offer, your style, and what clients get..."></textarea>
+              <div class="gig-price-row">
+                <div class="input-group" style="flex:1">
+                  <i class="fas fa-indian-rupee-sign"></i>
+                  <input type="number" id="gig-price" class="input-field" placeholder="Hourly price (₹)" min="100"
+                    max="5000" />
+                </div>
+              </div>
+              <div class="gig-form-actions">
+                <button class="btn-outline" id="gig-cancel-btn">Cancel</button>
+                <button class="btn" id="gig-save-btn">Publish Gig <i class="fas fa-paper-plane"></i></button>
+              </div>
+            </div>
+          </div>
+          <div class="gigs-list hidden" id="gigs-list"></div>
+        </section>
+
+        <!-- Active Orders -->
+        <section class="dashboard-content hidden" id="cview-orders">
+          <h2 class="section-title">Active Orders</h2>
+          <div class="empty-state">
+            <i class="fas fa-box-open"></i>
+            <h3>No active orders</h3>
+            <p>Once clients hire you, their orders will appear here.</p>
+          </div>
+        </section>
+
+        <!-- Marketplace (Creator Directory) -->
+        <section class="dashboard-content hidden" id="cview-marketplace">
+          <div class="cview-header"
+            style="flex-direction:column; align-items:flex-start; gap:16px; margin-bottom: 24px;">
+            <h2 class="section-title">Creator Directory</h2>
+            <div class="filters" style="width: 100%; justify-content: flex-start;">
+              <div class="search-wrap">
+                <i class="fas fa-search"></i>
+                <input type="text" id="csearch-creators" class="input-field" placeholder="Search creators..." />
+              </div>
+              <select id="cuniversity-filter" class="input-field input-select dash-select">
+                <option value="">All Universities</option>
+                <option value="Chandigarh University">Chandigarh University</option>
+                <option value="Panjab University Chandigarh">Panjab University Chandigarh</option>
+                <option value="Punjab University">Punjab University</option>
+                <option value="Delhi University">Delhi University</option>
+              </select>
+            </div>
+          </div>
+          <div class="results-summary" id="cresults-summary">Loading creators...</div>
+          <div class="creator-grid" id="ccreator-grid"></div>
+        </section>
+
+        <!-- Earnings -->
+        <section class="dashboard-content hidden" id="cview-earnings">
+          <h2 class="section-title">Earnings</h2>
+          <div class="earnings-summary">
+            <div class="earning-card">
+              <span class="earning-label">This Month</span>
+              <span class="earning-value">₹0</span>
+            </div>
+            <div class="earning-card">
+              <span class="earning-label">Total Earned</span>
+              <span class="earning-value">₹0</span>
+            </div>
+            <div class="earning-card">
+              <span class="earning-label">Pending</span>
+              <span class="earning-value">₹0</span>
+            </div>
+          </div>
+          <div class="empty-state" style="margin-top:40px;">
+            <i class="fas fa-chart-line"></i>
+            <h3>No earnings yet</h3>
+            <p>Complete your first order to start earning.</p>
+          </div>
+        </section>
+
+        <!-- Portfolio -->
+        <section class="dashboard-content hidden" id="cview-portfolio">
+          <div class="cview-header">
+            <h2 class="section-title">My Portfolio</h2>
+            <button class="btn" id="add-portfolio-btn"><i class="fas fa-plus"></i> Add Work</button>
+          </div>
+          <div id="portfolio-grid-container" class="portfolio-grid" style="margin-top: 20px; display: none;">
+            <!-- Rendered by JS -->
+          </div>
+          <div class="empty-state" id="portfolio-empty-state">
+            <i class="fas fa-images"></i>
+            <h3>No portfolio items yet</h3>
+            <p>Add URLs to your best edits (e.g., YouTube Shorts, Instagram Reels) to attract more clients.</p>
+          </div>
+        </section>
+
+        <!-- Creator Profile -->
+        <section class="dashboard-content hidden" id="cview-profile">
+          <h2 class="section-title">My Profile</h2>
+          <div class="creator-profile-layout">
+
+            <!-- Left: Avatar upload card -->
+            <div class="avatar-upload-card glass-panel">
+              <div class="avatar-upload-zone" id="avatar-upload-zone">
+                <img id="creator-profile-img" src="" alt="Profile Photo" class="avatar-preview hidden" />
+                <div class="avatar-upload-placeholder" id="avatar-placeholder">
+                  <i class="fas fa-camera"></i>
+                  <span>Click to upload</span>
+                </div>
+                <div class="avatar-upload-overlay" id="avatar-overlay">
+                  <i class="fas fa-camera"></i>
+                  <span>Change Photo</span>
+                </div>
+                <!-- File input covers full circle — clicking anywhere opens picker -->
+                <input type="file" id="creator-avatar-input" accept="image/*"
+                  style="position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;z-index:10;" />
+              </div>
+              <p class="avatar-hint">JPG, PNG or WebP &bull; Max 5MB</p>
+              <div class="avatar-actions">
+                <button class="btn btn-full" id="upload-avatar-btn">
+                  <i class="fas fa-cloud-arrow-up"></i> Upload Photo
+                </button>
+                <button class="btn-outline btn-full hidden" id="remove-avatar-btn">
+                  <i class="fas fa-trash"></i> Remove
+                </button>
+              </div>
+            </div>
+
+            <!-- Right: Profile form -->
+            <div class="creator-profile-form glass-panel">
+              <h3 style="margin-bottom:24px; font-size:1.1rem;">Public Profile Info</h3>
+              <div class="profile-form">
+                <div class="profile-form-row">
+                  <div class="input-group" style="flex:1">
+                    <i class="fas fa-user"></i>
+                    <input type="text" class="input-field" placeholder="Display name" id="cpf-name" />
+                  </div>
+                  <div class="input-group" style="flex:1">
+                    <i class="fas fa-university"></i>
+                    <input type="text" class="input-field" placeholder="University" id="cpf-uni" />
+                  </div>
+                </div>
+                <div class="input-group">
+                  <i class="fas fa-film"></i>
+                  <input type="text" class="input-field"
+                    placeholder="Specialty (e.g. YouTube Shorts Editing, Motion Graphics)" id="cpf-specialty" />
+                </div>
+                <div class="input-group">
+                  <i class="fas fa-indian-rupee-sign"></i>
+                  <input type="number" class="input-field" placeholder="Hourly rate (₹)" id="cpf-rate" min="100" />
+                </div>
+                <textarea class="input-field" rows="4"
+                  placeholder="Write a short bio — describe your editing style, experience, and what makes you stand out..."
+                  id="cpf-bio" style="resize:vertical; font-family:inherit; line-height:1.6;"></textarea>
+                <div class="profile-form-row">
+                  <div class="input-group" style="flex:1">
+                    <i class="fab fa-instagram"></i>
+                    <input type="text" class="input-field" placeholder="Instagram handle" id="cpf-insta" />
+                  </div>
+                  <div class="input-group" style="flex:1">
+                    <i class="fab fa-youtube"></i>
+                    <input type="text" class="input-field" placeholder="YouTube channel URL" id="cpf-yt" />
+                  </div>
+                </div>
+                <div style="display:flex; justify-content:flex-end; margin-top:8px;">
+                  <button class="btn" id="creator-save-profile-btn">Save Profile <i class="fas fa-check"></i></button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+      </main>
+    </div>
+
+  </div>
+
+  <!-- Chat Widget -->
+  <div class="chat-widget hidden" id="chat-widget">
+    <div class="chat-window glass-panel" id="chat-window">
+      <div class="chat-header">
+        <div class="status-dot"></div>
+        <strong>C<span style="color:var(--accent-base);">verso</span> Chat</strong>
+        <div style="flex:1"></div>
+        <button id="chat-close"><i class="fas fa-xmark"></i></button>
+      </div>
+      <div class="chat-messages" id="chat-messages">
+        <div class="message msg-received">Hi! 👋 How can I help with your footage today?</div>
+      </div>
+      <div class="chat-input">
+        <button title="Attach file"><i class="fas fa-paperclip"></i></button>
+        <input type="text" id="chat-text" placeholder="Type a message..." />
+        <button id="chat-send"><i class="fas fa-paper-plane"></i></button>
       </div>
     </div>
-  </section>
-
-  <section class="testimonials">
-    <div class="container">
-      <h2>What our users say</h2>
-      <div class="testimonial-cards">
-        <div class="testimonial-card">
-          <p>"Clipit made finding a professional editor so easy! Highly recommend."</p>
-          <h4>- Sarah J.</h4>
-        </div>
-        <div class="testimonial-card">
-          <p>"The process was seamless, and the results were amazing. Love it!"</p>
-          <h4>- Mike T.</h4>
-        </div>
-        <div class="testimonial-card">
-          <p>"Secure payments and verified editors gave me peace of mind. Great platform!"</p>
-          <h4>- Emily R.</h4>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <footer class="footer">
-    <div class="footer-links">
-      <a href="#"><i class="fas fa-info-circle"></i> About</a>
-      <a href="#"><i class="fas fa-envelope"></i> Contact</a>
-      <a href="#"><i class="fas fa-user-shield"></i> Privacy</a>
-    </div>
-    <p>&copy; Clipit 2026</p>
-  </footer>
+    <button class="chat-toggle" id="chat-toggle">
+      <i class="fas fa-comment-dots"></i>
+    </button>
+  </div>
 
   <script src="js/main.js" defer></script>
 </body>
+
 </html>

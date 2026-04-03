@@ -54,7 +54,8 @@ function allStatement(sql, params = []) {
 
 // Middleware
 app.use(cors());
-app.use(bodyParser.json());
+app.use(bodyParser.json({ limit: '10mb' }));
+app.use(bodyParser.urlencoded({ extended: true, limit: '10mb' }));
 app.use(express.static(path.join(__dirname)));
 
 // Database setup
@@ -68,23 +69,58 @@ const db = new sqlite3.Database('./clipit.db', (err) => {
 });
 
 function initDatabase() {
+  db.serialize(() => {
   db.run(`CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
     email TEXT UNIQUE NOT NULL,
     password TEXT NOT NULL,
-    role TEXT DEFAULT 'user'
+    role TEXT DEFAULT 'user',
+    university TEXT DEFAULT '',
+    specialty TEXT DEFAULT '',
+    bio TEXT DEFAULT '',
+    avatar TEXT DEFAULT '',
+    price INTEGER DEFAULT 0,
+    joined_at TEXT DEFAULT CURRENT_TIMESTAMP
   )`);
 
+  // Migrate old users table columns if needed
+  const userCols = [
+    "ALTER TABLE users ADD COLUMN university TEXT DEFAULT ''",
+    "ALTER TABLE users ADD COLUMN specialty TEXT DEFAULT ''",
+    "ALTER TABLE users ADD COLUMN bio TEXT DEFAULT ''",
+    "ALTER TABLE users ADD COLUMN avatar TEXT DEFAULT ''",
+    "ALTER TABLE users ADD COLUMN price INTEGER DEFAULT 0",
+    "ALTER TABLE users ADD COLUMN joined_at TEXT DEFAULT CURRENT_TIMESTAMP"
+  ];
+  userCols.forEach(sql => db.run(sql, err => {
+    if (err && !err.message.includes('duplicate column name')) console.error(err.message);
+  }));
+
+  // Keep creators table for backward compat but don't seed it
   db.run(`CREATE TABLE IF NOT EXISTS creators (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER UNIQUE,
     name TEXT NOT NULL,
+    email TEXT DEFAULT '',
     specialty TEXT NOT NULL,
     bio TEXT DEFAULT '',
     rating INTEGER DEFAULT 0,
     price INTEGER DEFAULT 0,
-    avatar TEXT DEFAULT ''
+    avatar TEXT DEFAULT '',
+    university TEXT DEFAULT '',
+    joined_at TEXT DEFAULT CURRENT_TIMESTAMP,
+    portfolio TEXT DEFAULT '[]'
   )`);
+
+  const creatorColumns = [
+    "ALTER TABLE creators ADD COLUMN user_id INTEGER UNIQUE",
+    "ALTER TABLE creators ADD COLUMN joined_at TEXT DEFAULT CURRENT_TIMESTAMP",
+    "ALTER TABLE creators ADD COLUMN portfolio TEXT DEFAULT '[]'"
+  ];
+  creatorColumns.forEach(sql => db.run(sql, err => {
+    if (err && !err.message.includes('duplicate column name')) console.error(err.message);
+  }));
 
   db.run(`CREATE TABLE IF NOT EXISTS payments (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -103,47 +139,11 @@ function initDatabase() {
     created_at TEXT DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (creator_id) REFERENCES creators(id)
   )`);
-
-  const creatorColumns = [
-    "ALTER TABLE creators ADD COLUMN bio TEXT DEFAULT ''",
-    "ALTER TABLE creators ADD COLUMN rating INTEGER DEFAULT 0",
-    "ALTER TABLE creators ADD COLUMN price INTEGER DEFAULT 0",
-    "ALTER TABLE creators ADD COLUMN avatar TEXT DEFAULT ''"
-  ];
-
-  creatorColumns.forEach((statement) => {
-    db.run(statement, (err) => {
-      if (err && !err.message.includes('duplicate column name')) {
-        console.error('Error updating creators schema:', err.message);
-      }
-    });
-  });
-
-  // Insert sample creators
-  db.get("SELECT COUNT(*) as count FROM creators", (err, row) => {
-    if (err) {
-      console.error('Error checking creators count:', err);
-      return;
-    }
-    if (!row || row.count === 0) {
-      const sampleCreators = [
-        { name: 'Alex Johnson', specialty: 'Action Editing', bio: 'Specializing in high-energy action sequences.', rating: 5, price: 75, avatar: 'https://i.pravatar.cc/160?img=12' },
-        { name: 'Sarah Lee', specialty: 'Documentary Editing', bio: 'Creating compelling narratives for documentaries.', rating: 4, price: 60, avatar: 'https://i.pravatar.cc/160?img=32' },
-        { name: 'Mike Chen', specialty: 'Music Video Editing', bio: 'Bringing music videos to life with creative cuts.', rating: 5, price: 80, avatar: 'https://i.pravatar.cc/160?img=15' },
-        { name: 'Emma Davis', specialty: 'Wedding Editing', bio: 'Capturing the magic of your special day.', rating: 4, price: 55, avatar: 'https://i.pravatar.cc/160?img=47' },
-        { name: 'Tom Wilson', specialty: 'Commercial Editing', bio: 'Crafting engaging commercials that sell.', rating: 5, price: 70, avatar: 'https://i.pravatar.cc/160?img=58' }
-      ];
-
-      const stmt = db.prepare("INSERT INTO creators (name, specialty, bio, rating, price, avatar) VALUES (?, ?, ?, ?, ?, ?)");
-      sampleCreators.forEach(creator => {
-        stmt.run(creator.name, creator.specialty, creator.bio, creator.rating, creator.price, creator.avatar);
-      });
-      stmt.finalize();
-    }
-  });
+  }); // end db.serialize
 }
 
 function validateAuthPayload(body, requireName = false) {
+
   const name = typeof body.name === 'string' ? body.name.trim() : '';
   const email = typeof body.email === 'string' ? body.email.trim().toLowerCase() : '';
   const password = typeof body.password === 'string' ? body.password : '';
@@ -161,6 +161,46 @@ function validateAuthPayload(body, requireName = false) {
   }
 
   return { name, email, password };
+}
+
+function validateCreatorPayload(body) {
+  const name = typeof body.name === 'string' ? body.name.trim() : '';
+  const email = typeof body.email === 'string' ? body.email.trim().toLowerCase() : '';
+  const specialty = typeof body.specialty === 'string' ? body.specialty.trim() : '';
+  const bio = typeof body.bio === 'string' ? body.bio.trim() : '';
+  const avatar = typeof body.avatar === 'string' ? body.avatar.trim() : '';
+  const university = typeof body.university === 'string' ? body.university.trim() : '';
+  const price = Number(body.price);
+
+  if (name.length < 2) {
+    return { error: 'Creator name must be at least 2 characters long.' };
+  }
+
+  if (!isValidEmail(email)) {
+    return { error: 'Enter a valid email address.' };
+  }
+
+  if (specialty.length < 3) {
+    return { error: 'Specialty must be at least 3 characters long.' };
+  }
+
+  if (bio.length < 20) {
+    return { error: 'Bio must be at least 20 characters long.' };
+  }
+
+  if (!Number.isFinite(price) || price < 10 || price > 1000) {
+    return { error: 'Hourly price must be between 10 and 1000.' };
+  }
+
+  return {
+    name,
+    email,
+    specialty,
+    bio,
+    avatar,
+    university,
+    price: Math.round(price)
+  };
 }
 
 function isValidEmail(email) {
@@ -306,172 +346,20 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-// User registration
-app.post(['/register', '/api/signup'], asyncRoute(async (req, res) => {
-  const payload = validateAuthPayload(req.body, true);
-  if (payload.error) {
-    return res.status(400).json({ error: payload.error });
-  }
-
-  const { name, email, password } = payload;
-  const hashedPassword = await bcrypt.hash(password, 10);
-  try {
-    await runStatement(
-      `INSERT INTO users (name, email, password) VALUES (?, ?, ?)`,
-      [name, email, hashedPassword]
-    );
-    res.status(201).json({ message: 'User registered successfully.' });
-  } catch (error) {
-    if (error.message.includes('UNIQUE constraint failed')) {
-      return res.status(409).json({ error: 'An account with that email already exists.' });
-    }
-
-    console.error('Signup error:', error.message);
-    res.status(500).json({ error: 'Failed to register user.' });
-  }
-}));
-
-// User login
-app.post(['/login', '/api/login'], asyncRoute(async (req, res) => {
-  const payload = validateAuthPayload(req.body);
-  if (payload.error) {
-    return res.status(400).json({ error: payload.error });
-  }
-
-  const { email, password } = payload;
-  const user = await getStatement(`SELECT * FROM users WHERE email = ?`, [email]);
-  if (!user) {
-    return res.status(401).json({ error: 'Invalid credentials.' });
-  }
-
-  const isPasswordValid = await bcrypt.compare(password, user.password);
-  if (!isPasswordValid) {
-    return res.status(401).json({ error: 'Invalid credentials.' });
-  }
-
-  const token = jwt.sign({ id: user.id, role: user.role }, SECRET_KEY, { expiresIn: '1h' });
-  res.json({ token });
-}));
-
-// API endpoint example
-app.get('/api/creators', (req, res) => {
-  const search = typeof req.query.search === 'string' ? req.query.search.trim() : '';
-  const sql = search
-    ? `SELECT * FROM creators WHERE lower(name) LIKE ? OR lower(specialty) LIKE ? ORDER BY rating DESC, price ASC`
-    : `SELECT * FROM creators ORDER BY rating DESC, price ASC`;
-  const params = search
-    ? [`%${search.toLowerCase()}%`, `%${search.toLowerCase()}%`]
-    : [];
-
-  db.all(sql, params, (err, rows) => {
-    if (err) {
-      return res.status(500).json({ error: 'Failed to fetch creators.' });
-    }
-    res.json(rows);
-  });
-});
-
-app.get('/api/payments', async (req, res) => {
-  try {
-    const email = typeof req.query.email === 'string' ? req.query.email.trim().toLowerCase() : '';
-    const limit = Math.min(Math.max(Number(req.query.limit) || 10, 1), 25);
-    const sql = email
-      ? `SELECT id, creator_id, creator_name, customer_name, customer_email, project_name, hours, amount_cents, currency, card_brand, card_last4, payment_reference, status, created_at
-         FROM payments
-         WHERE customer_email = ?
-         ORDER BY datetime(created_at) DESC
-         LIMIT ?`
-      : `SELECT id, creator_id, creator_name, customer_name, customer_email, project_name, hours, amount_cents, currency, card_brand, card_last4, payment_reference, status, created_at
-         FROM payments
-         ORDER BY datetime(created_at) DESC
-         LIMIT ?`;
-
-    const rows = await allStatement(sql, email ? [email, limit] : [limit]);
-    res.json(rows);
-  } catch (error) {
-    console.error('Error fetching payments:', error.message);
-    res.status(500).json({ error: 'Failed to fetch payments.' });
-  }
-});
-
-app.post('/api/payments', async (req, res) => {
-  try {
-    const payment = validatePaymentPayload(req.body);
-    if (payment.error) {
-      return res.status(400).json({ error: payment.error });
-    }
-
-    const creator = await getStatement(`SELECT id, name, specialty, price FROM creators WHERE id = ?`, [payment.creatorId]);
-    if (!creator) {
-      return res.status(404).json({ error: 'Creator not found.' });
-    }
-
-    const amountCents = Number(creator.price) * payment.hours * 100;
-    const paymentReference = buildPaymentReference();
-
-    const result = await runStatement(
-      `INSERT INTO payments (
-        creator_id,
-        creator_name,
-        customer_name,
-        customer_email,
-        project_name,
-        hours,
-        amount_cents,
-        currency,
-        card_brand,
-        card_last4,
-        payment_reference,
-        status
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, 'USD', ?, ?, ?, 'paid')`,
-      [
-        creator.id,
-        creator.name,
-        payment.customerName,
-        payment.customerEmail,
-        payment.projectName,
-        payment.hours,
-        amountCents,
-        payment.cardBrand,
-        payment.cardLast4,
-        paymentReference
-      ]
-    );
-
-    res.status(201).json({
-      message: 'Payment processed successfully.',
-      payment: {
-        id: result.id,
-        creatorId: creator.id,
-        creatorName: creator.name,
-        specialty: creator.specialty,
-        customerName: payment.customerName,
-        customerEmail: payment.customerEmail,
-        projectName: payment.projectName,
-        hours: payment.hours,
-        amountCents,
-        currency: 'USD',
-        cardBrand: payment.cardBrand,
-        cardLast4: payment.cardLast4,
-        paymentReference,
-        status: 'paid'
-      }
-    });
-  } catch (error) {
-    console.error('Error processing payment:', error.message);
-    res.status(500).json({ error: 'Unable to process payment right now.' });
-  }
-});
+// Modular Routes
+const helpers = { asyncRoute, validateAuthPayload, validateCreatorPayload, validatePaymentPayload, buildPaymentReference, getStatement, runStatement, allStatement, bcrypt, jwt, SECRET_KEY };
+require('./routes/auth')(app, db, helpers);
+require('./routes/creators')(app, db, helpers);
+require('./routes/payments')(app, db, helpers);
+require('./routes/chat')(app);
 
 app.use((err, req, res, next) => {
   console.error('Unhandled server error:', err);
   if (req.path.startsWith('/api/')) {
     return res.status(500).json({ error: 'Something went wrong on the server.' });
   }
-
   next(err);
 });
-
 // Start the server
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
